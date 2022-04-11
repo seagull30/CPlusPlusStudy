@@ -43,16 +43,135 @@
 
     4. 문자열
     string  
-*/
 
+    변수명 이름짓기 규칙 (표기법)
+    1. 헝가리안 표기법
+        · 데이터타입 약자를 접두어로 붙인다. (int nMAXCOUNT = 10;)
+    2. 카멜 표기법 (int maxCOUNT = 10;)
+    3. 파스칼 표기법 (int MAXCOUNT = 10;)
+    
+    int token_max_count = 10;
+
+    1. 대소문자를 구분한다.
+    2. 알파벳, 숫자, _(언더바)만 사용한다.
+        2-1. 숫자는 가장 앞에만 올 수 있다.
+
+    4가지 속성
+    1) 이름 : input_key    2) 크기 : 4byte   3) 값 : 10    4) 메모리주소 : ??
+    
+    연산자
+    데이터를 가공(연산)하는 모든 명령에 필요한 것들
+    1) 어떤 종류의 연산자인가
+    2) 우선순위 : 어떤 순서로 연산이 되는가
+    3) 결합순서 : 좌측부터 연산하는가, 우측부터 연산하는가
+
+    연산자 종류
+    1. 사칙연산 : 산술연산자 (+, -, *, /, %) 
+    우선순위 : *, /, % > +, - 
+    결합순서 : 좌측부터 연산된다.
+
+    2. 대입연산자
+    = : 왼쪽 항에 오른쪽 항의 값을 대입(복사)한다.
+    결합순서 : 우측부터 연산이 된다.
+
+    3. 복합대입 연산자 
+    += : a += b; -> a = a + b;
+    -= : a -= b; -> a = a - b;
+    *= : a *= b; -> a = a * b;
+    /= : a /= b; -> a = a / b; (b == 0, 런타임에러 발생)
+    %= : a %= b; -> a = a % b;
+
+    4. 증감연산자
+    특정 변수의 값을 1씩 증가시키거나 감소시킬 때 사용하는 연산자.
+    변수명 앞이나 뒤에서 ++ /--를 붙여서 사용한다.
+
+    5.관계연산자
+    두 항의 값을 비교한 결과가 참 또는, 거짓으로 봔환되는 연산자.
+    a < b
+    a > b
+    a <= b
+    a >= b
+    a == b
+    a != b
+
+    (신규)
+
+    6. 논리연산자
+    왼쪽 항과 오른쪽 항의 값을 각각 참과 거짓으로 연산해서 두 값을 비교해서 참과 거짓을 반환하는 연산자
+
+    && : 논리곱(AND) 
+        · a && b : a의 결과값이 참이고 b의 결과값이 참일떄 1을 반환.
+    || : 논리합(OR)
+        · a || b : a의 결과값이 참이거나 b의 결과값이 참이면 1을 반환.
+    ! : 논리부정(not)
+        · !a : a의 결과 값이 참이면 거짓을 반환하고, 거짓이면 참을 반환한다.
+    
+    7. 삼항연산자
+    a ? b : c;
+    a의 결과 값이 참이면 b 실행문이 동작, 거짓이면 c 실행문이 동작
+
+    난수 (랜덤값)  
+    rand(); // 0 ~ 32367 사이의 랜덤한 값이 반환된다.
+    함수 내부에 seed값이 있어서 이 값에 의해서 리턴값이 정해진다.
+    기본적으로 seed : 1로 세팅되어 있다.
+
+    srand(time(NULL));
+
+
+
+   
+
+
+*/
+/*
+    실습1. 3 ~ 7 사이의 랜덤한 숫자를 출력하는 프로그램을 작성하자. (3, 7 포함)
+    실습2. 가장 작은 값과 큰 값을 입력받아서, 그 사이의 임의의 값을 출력하는 프로그램을 작성하자.
+    실습3. 프로그램을 실행하면 내부적으로 1 ~ 9 사이의 숫자가 정답으로 정해진다. 유저가 1 ~ 9 사이의 숫자를 입력하여 맞으면 true, 틀리면 false를 출력한다.
+
+
+*/
 
 
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 int main()
 {
+    int input_Max_Num = 7, input_Min_Num = 3;
+    int player_Num, rand_Num;
+
+    srand(time(NULL));
+
+    cout << "3부터 7사이 랜덤한수 : " << ((rand() % (input_Max_Num - input_Min_Num + 1)) + input_Min_Num) << endl;
+   
+    cout << "원하는 값중 큰값을 입력해주세요 : ";
+    cin >> input_Max_Num;
+    cout << "작은값을 입력해주세요 : ";
+    cin >> input_Min_Num;
+    (input_Max_Num < input_Min_Num) ? cout << "큰수부터 입력해주세요" << endl : cout << input_Max_Num << "부터" << input_Min_Num << "사이 랜덤한수 : " << ((rand() % (input_Max_Num - input_Min_Num + 1)) + input_Min_Num) << endl;
+    
+    rand_Num = (rand() % 9) + 1;
+    cout << "정답인것같은 값을 입력하세요 : ";
+    cin >> player_Num;
+    cout << boolalpha << (player_Num == rand_Num) << "정답은 " << rand_Num << "이었습니다" << endl;
+
+    /*
+
+
+    std::cout << !1 << std::endl;
+    std::cout << ((10 < 5) == 0) << std::endl;
+    (10 < 5) ? std::cout << "10이 5보다크다" : std::cout << "10이 5보다 작다.";
+
+
+
     int input_key = 10;
+    std::cout << input_key++ << std::endl;
+    std::cout << ++input_key << std::endl;
+    std::cout << input_key-- << std::endl;
+    std::cout << --input_key << std::endl;
+
     float testFloat1 = 5.3;
     float testFloat2 = 5.3f;
     char TestCharcter = 'a';  
@@ -60,8 +179,7 @@ int main()
 
 
     std::cout << "Hello World!\n";
-    std::cin >> input_key;
-    std::cout << input_key;
+    */
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
