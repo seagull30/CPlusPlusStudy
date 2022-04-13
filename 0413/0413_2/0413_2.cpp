@@ -212,13 +212,13 @@ int main()
 srand(time(NULL));
 
 char map[MAP_SIZE][MAP_SIZE];
-int playerX = 0; int playerY = 0; int i = 1;
-int exitX = rand() % (MAP_SIZE-1) + 1; int exitY = rand() % (MAP_SIZE-1) + 1;
+int playerX = 0; int playerY = 0; bool checkLoop = 1;
+int exitX = rand() % (MAP_SIZE - 1) + 1; int exitY = rand() % (MAP_SIZE - 1) + 1;
 int inputKey;
 
 for (int i = 0; i < MAP_SIZE; i++) {
 	for (int j = 0; j < MAP_SIZE; j++) {
-		map[i][j] = ' ';
+		map[i][j]=' ';
 	}
 }
 
@@ -228,7 +228,7 @@ map[exitY][exitX] = 'E';
 
 
 
-while (i == 1) {
+while (checkLoop == 1) {
 	system("cls");
 	for (int i = 0; i < MAP_SIZE; i++) {
 		for (int j = 0; j < MAP_SIZE; j++) {
@@ -236,49 +236,37 @@ while (i == 1) {
 		}
 		cout << endl;
 	}
+	map[playerY][playerX] = ' ';
 
 	switch (inputKey = _getch())
 	{
 	case 'W':
-		if (map[playerY - 1][playerX] == '#' || playerY - 1 < 0) {
+		if (map[playerY - 1][playerX] == '#' || playerY - 1 < 0) 
 			playerY = playerY;
-		}
-		else if (map[playerY - 1][playerX] == 'E') {
-			i = 0;
-		}
-		else {
-			map[playerY][playerX] = ' ';
+		
+		else 
 			playerY -= 1;
-		}
-
+		
 		break;
 
 	case 'A':
 
 		if (map[playerY][playerX - 1] == '#' || playerX - 1 < 0)
 			playerX = playerX;
-		else if (map[playerY][playerX - 1] == 'E') {
-			i = 0;
-		}
-		else {
-			map[playerY][playerX] = ' ';
-			playerX -= 1;
-		}
 
+		else 
+			playerX -= 1;
+		
 		break;
 
 	case 'S':
 
 		if (map[playerY + 1][playerX] == '#' || playerY + 1 > MAP_SIZE - 1)
 			playerY = playerY;
-		else if (map[playerY + 1][playerX] == 'E') {
-			i = 0;
-		}
-		else {
-			map[playerY][playerX] = ' ';
-			playerY += 1;
-		}
 
+		else 
+			playerY += 1;
+		
 		break;
 
 
@@ -286,16 +274,14 @@ while (i == 1) {
 
 		if (map[playerY][playerX + 1] == '#' || playerX + 1 > MAP_SIZE - 1)
 			playerX = playerX;
-		else if (map[playerY][playerX + 1] == 'E') {
-			i = 0;
-		}
-		else {
-			map[playerY][playerX] = ' ';
-			playerX += 1;
-		}
 
+		else 
+			playerX += 1;
+		
 		break;
 	}
+	if (playerX == exitX && playerY == exitY)
+		checkLoop = 0;
 	map[playerY][playerX] = 'O';
 }
 
