@@ -248,7 +248,6 @@ while (i == 1) {
 		}
 		else {
 			map[playerY][playerX] = ' ';
-			map[playerY - 1][playerX] = 'O';
 			playerY -= 1;
 		}
 
@@ -263,7 +262,6 @@ while (i == 1) {
 		}
 		else {
 			map[playerY][playerX] = ' ';
-			map[playerY][playerX - 1] = 'O';
 			playerX -= 1;
 		}
 
@@ -278,7 +276,6 @@ while (i == 1) {
 		}
 		else {
 			map[playerY][playerX] = ' ';
-			map[playerY + 1][playerX] = 'O';
 			playerY += 1;
 		}
 
@@ -294,14 +291,14 @@ while (i == 1) {
 		}
 		else {
 			map[playerY][playerX] = ' ';
-			map[playerY][playerX + 1] = 'O';
 			playerX += 1;
 		}
 
 		break;
 	}
+	map[playerY][playerX] = 'O';
 }
-end:
+
 system("cls");
 cout << "탈출에 성공했습니다." << endl;
 
