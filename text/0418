@@ -1,0 +1,52 @@
+#1 버전 관리 시스템
+- 버전 관리 : 파일의 변화를 기록하는 것
+- 로컬 / 중앙집중형 / 분산형
+    > 로컬 : 내 컴퓨터에서만 버전 관리
+    > 중앙집중형 : 내 서버에서만 버전 관리
+    > 분산형 : 내 컴퓨터 + 서버에서 버전 관리
+-git은 분산형 버전 관리 시스템(Distributed Version Control System)
+
+#2 Git
+- Git은 스냅샷을 이용해서 버전 관리함
+- Committed / Modified / Staged
+    > Committed : 버전 관리를 한 상태
+    > Modified : 수정이 일어난 상태
+    > Staged : 커밋하겠다고 한 상태
+
+#3 명령어
+- git commit : 커밋하는 것
+- git branch : 브랜치를 만드는 것
+    > 브랜치 : 특정 커밋에 대한 참조
+    > -f : 브랜칠를 강제로 옮기는 것
+- git checkout : 특정 버전(커밋)을 불러오는 것
+    > -b : 브랜치를 만들고 체크아웃
+- git merge : 서로 다른 두 개의 커밋을 합쳐서 새로운 커밋을 생성
+- git rebase : 커밋을 복사해 다른 커밋으로 붙여넣는 것
+    > -i : 인터랙티브 리베이스
+- git cherry-pick : 원하는 커밋을 복사해 붙여넣는 것
+- 상대 참조(Relative Reference)
+    > HEAD : 현재 작업 중인 버전
+    > ^ : 특정 커밋의 부모
+        > 2 : 두 번쨰 부모 
+    > ~ : 특정 커밋으로부터 어떤 수만큼 떨어진 부모
+- git tag : 특정 커밋에다가 어떤 내용을 남기는 것
+- git clone : 원격 저장소를 복제하는 것
+- git fetch : 원격 저장소의 내용을 로컬로 가져오는 것
+    > 1. 로컬에 없는 커밋을 다운로드
+    > 2. 원격 브랜치를 업데이트
+- git pull : git fetch + git merge
+- git push : 로컬 저장소의 내용을 원격으로 보내는 것
+    > 1. 원격에 없는 커밋을 업로드
+    > 2. 원격 브랜치를 업데이트
+
+
+
+
+
+1. 원격 저장소를 만드는 명령어 => git clone
+2. 원격 브랜치 : 원격 저장소를 추적하는 특수한 브랜치(remote name/branch name)
+3. git fetch : 원격 저장소의 내용을 로컬에도 동기화
+ > 1. 로컬에 없는 커밋을 다운로드
+ > 2. 원격 브랜치를 업데이트
+4. git pull : git fetch -> git marge
+5. git push : 
