@@ -7,6 +7,11 @@ colon refspec으로 source:destination
 git bash 사용
 
 #2 이외의 명령어
+- Unix
+    > - cd : Change Directory
+    > - mkdir : make Directory
+    > - touch : make a file
+    
 - git config : 설정
 - git add : 스테이징 영역 추가
 - git restore : 변경사항 폐기

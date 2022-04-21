@@ -1,0 +1,98 @@
+#1
+- git init : 레포 생성
+- git status : 레포 상태 확인
+- git add : 스테이징
+- git restore : Unstage or Discard
+- git commit : 커밋하는 거
+- git branch : 브랜치 만드는 것
+- git merge : 병합하는 거
+- Relative Reference
+    > - ^ / ~
+- git reset : 되돌아가는 것
+- git revert : 반대되는 커밋
+- git fetch : 원격 가져오는 것
+- git pull : fetch + merge
+- git push : 로컬에 있는 거 보내는 거
+- git clone : 원격 저장소 로컬로 복제
+- git log : 이력 확인
+
+#2 git flow 
+    > 1. 
+    > 2.
+    > 3.
+    > 4. 코드 리뷰
+    > 5. 리뷰 끝나면 main으로 merge
+
+ 
+-충돌 처리
+
+# Cumputationl Thinking
+
+1. Type
+비트를 해석하는 방법 + 그에 적용할 수 있는 연산
+Primitive Type
+Built-in Type
+User-defined Type
+
+2. Control Statement
+- Conditional Statement
+    > if / else, switch
+- Iteration Statement 
+    > for, while, do-while
+    ex)
+    //C, C++, C#
+    for (int i = 0; i < 5; i++)
+    {
+
+    }
+
+    //python
+    for i in range(5):
+
+3. Function
+정의역에 있는 어떤 값을 대입시켰을 때, 그에 대응되는 공역의 값이 나오는 것
+
+Core
+언어의 핵심 => 문법
+변수, 조건문, 반복문, 함수,
+구조체, 열거형, 배열, 포인터,
+공용체, 매크로, 타입 재정의
+
+Library
+함수의 모음
+
+#1 컴퓨터 동작 원리
+- Memory / IO / Cumputationl 
+    > - Memory : 데이터 저장 공간 
+        > - Little Endian / Big Endian 
+    > - IO : 입력과Input and Output
+        > - Input : User -> Computer 
+        > - Output : Computer -> User
+    > - CPU : 계산
+        > - ALU : 계산
+        > - Register : 메모리
+        > - Control Unit : 나머지 부품 제어
+- Computer Architecture
+    > - Havard / Von 노이만
+- OS  컴퓨터 자원을 관리
+- Process /Thread
+    > - Core / Data / Heap / Stack
+- OSI 7 Layer
+    > - Application : 프로그램간 데이터 통신
+    > - Presentation : 데이터 암호화 / 복호화
+    > - Session : 세션 연결 및 해제
+    > - Transport : 데이터 전송
+    > - Network : 컴퓨터 식별
+    > - Data Link : 경로 식별
+    > - Physical : 비트 전송 방식
+
+#2 프로그래밍 언어
+- 내 생각을 컴퓨터에게 전할 수 있는 도구 => 프로그래밍 언어
+- Type 
+    Primitive Type
+    Built-in Type
+    User-defined Type
+
+- Control Statement
+
+- Function
