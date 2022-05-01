@@ -17,9 +17,9 @@ void strcpy(char *a, char *b);
 
 void strcat(char* a, char* b);
 
-int strcmp(char* a, char* b);
+strcmp()
 
-char* strstr(char* a, char* b);
+strstr()
 
 
 
@@ -135,34 +135,9 @@ void strcat(char* a, char* b)
 	a[i + 1] = '\0';
 }
 
-int strcmp(char* a, char* b)
-{
-	for (int i = 0; a[i] != '\0' || b[i] != '\0'; i++)
-	{
-		if (a[i] > b[i])
-			return 1;
-		else if (a[i] < b[i])
-			return -1;
-	}
-	return 0;
-}
+strcmp()
 
-
-char* strstr(char* a, char* b)
-{
-	int i;
-	for (i = 0; a[i] != '\0'; i++)
-	{
-		for (int j = 0; b[j] != '\0'; j++)
-		{
-			if (a[i] != b[j])
-				continue;
-		}
-		return &a[i];
-
-	}
-	return NULL;
-}
+strstr()
 
 
 
