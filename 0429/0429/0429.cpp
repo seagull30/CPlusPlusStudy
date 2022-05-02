@@ -12,14 +12,13 @@ int strlen(const char* str);
 char* strchr(char* a, char b);
 char* strrchr(char* a, char b);
 
-
-void strcpy(char *a, char *b);
+void strcpy(char* a, char* b);
 
 void strcat(char* a, char* b);
 
 int strcmp(char* a, char* b);
 
-char* strstr(char* a, char* b);
+char* strstr(char* a, const char* b);
 
 
 
@@ -38,19 +37,30 @@ int main(void)
 	char g[] = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
 	printf("%p %s\n", strchr(g, 'a'), strchr(g, 'a'));
-	printf("%p %s\n", strrchr(g, 'a'), strrchr(g, 'a'));
+	printf("%p %s\n", strrchr(f, 'L'), strrchr(f, 'L'));
 
 
 	strcpy(f, g);
-	printf("%s", f);
+	printf("%s\n", f);
 
-	printf("%d", strlen(f));
+	char h[50] = "kl;k;kasdghfcghfchfdbh";		
+	char i[10] = "asd ";
+
+	printf("str : %p %s\n", strstr(h, "hfcg"), strstr(h, "hfcg"));
+
+	printf("strcmp : %d\n", strcmp(h, i));
+
+
+	strcat(h, i);
+	printf("%s\n", h);
+
+	printf("%d\n", strlen(f));
 
 	printf("%c\n", tolower(d));
 	printf("%c\n", toupper(d));
 	printf("%c\n", tolower(d));
 
-	printf("%d %d", b, c);
+	printf("%d %d\n", b, c);
 
 	return 0;
 }
@@ -70,7 +80,6 @@ int isupper(char a)
 	else
 		return 0;
 }
-
 
 char toupper(char a)
 {
@@ -98,20 +107,7 @@ int strlen(const char* str)
 
 char* strchr(char* a, char b)
 {
-	while(*a != '\n')
-	{
-		if (*a == b)
-			return a;
-		++a;
-	}
-
-	return NULL;
-}
-
-char* strrchr(char* a, char b)
-{
-	int c = strlen(a);
-	for (int i = c; a[i] != '\n'; i--)
+	for (int i = 0; a[i] != '\0'; i++)
 	{
 		if (a[i] == b)
 			return &a[i];
@@ -120,54 +116,64 @@ char* strrchr(char* a, char b)
 	return NULL;
 }
 
-
-void strcpy(char *a, char *b)
+char* strrchr(char* a, char b)
 {
-	for (int i = 0; a[i] != '\0' || b[i] != '\0'; i++)
+	int c = strlen(a) - 1;
+	for (int i = c; a[i] != '\0'; i--)
+	{
+		if (a[i] == b)
+			return &a[i];
+	}
+
+	return NULL;
+}
+
+void strcpy(char* a, char* b)
+{
+	for (int i = 0; a[i] != '\0' && b[i] != '\0'; i++)
 		a[i] = b[i];
 }
 
 void strcat(char* a, char* b)
 {
-	int i = strlen(a);
-	for (i; b[i] != '\0'; i++)
-		a[i] = b[i];
-	a[i + 1] = '\0';
+	int i = strlen(a);	
+	for (int j = 0; b[j] != '\0'; j++)
+	{
+		a[i] = b[j];
+		i++;
+	}
+	a[i] = '\0';
 }
 
 int strcmp(char* a, char* b)
 {
-	for (int i = 0; a[i] != '\0' || b[i] != '\0'; i++)
+	int i;
+	for (i = 0; a[i] != '\0' && b[i] != '\0'; i++)
 	{
-		if (a[i] > b[i])
-			return 1;
-		else if (a[i] < b[i])
-			return -1;
+		if (a[i] != b[i])
+			return a[i] - b[i];
 	}
-	return 0;
+	return a[i] - b[i];
 }
 
-
-char* strstr(char* a, char* b)
+char* strstr(char* a, const char* b)
 {
-	int i;
+	int i, j;
+
 	for (i = 0; a[i] != '\0'; i++)
 	{
-		for (int j = 0; b[j] != '\0'; j++)
+		for (j = 0; b[j] != '\0'; j++)
 		{
-			if (a[i] != b[j])
-				continue;
+			if (a[i + j] != b[j])
+				break;
 		}
+		if (b[j + 1] != '\0')
+			continue;
 		return &a[i];
 
 	}
 	return NULL;
 }
-
-
-
-
-
 
 void swap(int* a, int* b)
 {
@@ -177,7 +183,6 @@ void swap(int* a, int* b)
 	*b = temp;
 
 }
-
 
 long long sum(int* a, int n)
 {
