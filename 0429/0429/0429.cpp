@@ -43,17 +43,18 @@ int main(void)
 	strcpy(f, g);
 	printf("%s\n", f);
 
-	char h[50] = "kl;k;kasdghfcghfchfdbh";		
+	char h[50] = "hello World!  asdad";		
 	char i[10] = "asd ";
 
-	printf("str : %p %s\n", strstr(h, "hfcg"), strstr(h, "hfcg"));
+	printf("strstr : %p %s\n", strstr(h, ""), strstr(h, ""));
+	
 
 	printf("strcmp : %d\n", strcmp(h, i));
 
 
 	strcat(h, i);
 	printf("%s\n", h);
-
+	
 	printf("%d\n", strlen(f));
 
 	printf("%c\n", tolower(d));
@@ -167,10 +168,9 @@ char* strstr(char* a, const char* b)
 			if (a[i + j] != b[j])
 				break;
 		}
-		if (b[j + 1] != '\0')
+		if (b[j] != '\0')
 			continue;
 		return &a[i];
-
 	}
 	return NULL;
 }
