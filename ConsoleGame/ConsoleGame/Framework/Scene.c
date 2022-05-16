@@ -112,12 +112,14 @@ void release_title(void)
 #pragma endregion
 
 #include "Game/Player.h"
+#include "Game/Monster.h"
 
 #pragma region MainScene
 
 typedef struct tagMainSceneData
 {
 	Player	Player;
+	Monster Monster;
 } MainSceneData;
 
 void init_main(void)
@@ -127,6 +129,7 @@ void init_main(void)
 	MainSceneData* data = (MainSceneData*)g_Scene.Data;
 
 	Player_Init(&data->Player);
+	Monster_Init(&data->Monster, &data->Player);
 }
 
 void update_main(void)
@@ -134,6 +137,12 @@ void update_main(void)
 	MainSceneData* data = (MainSceneData*)g_Scene.Data;
 
 	Player_Update(&data->Player);
+	Monster_Update(&data->Monster);
+	if (Game_Over(&data->Monster))
+	{
+		Scene_SetNextScene(SCENE_LEESEUNGIL);
+	}
+
 }
 
 void render_main(void)
@@ -141,6 +150,7 @@ void render_main(void)
 	MainSceneData* data = (MainSceneData*)g_Scene.Data;
 
 	Player_Render(&data->Player);
+	Monster_Render(&data->Monster);
 }
 
 void release_main(void)
@@ -148,6 +158,7 @@ void release_main(void)
 	MainSceneData* data = (MainSceneData*)g_Scene.Data;
 
 	Player_Release(&data->Player);
+	Monster_Release(&data->Monster);
 
 	SafeFree(g_Scene.Data);
 }

@@ -14,7 +14,7 @@ typedef struct tagBullet
 	float	Speed;
 } Bullet;
 
-void Bullet_Init(Bullet* bullet, struct tagGun* gun);
+void Bullet_Init(Bullet* bullet, struct tagGun* gun, enum TextColor color);
 void Bullet_Update(Bullet* bullet);
 void Bullet_Render(Bullet* bullet);
 void Bullet_Release(Bullet* bullet);

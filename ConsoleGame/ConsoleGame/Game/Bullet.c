@@ -4,13 +4,13 @@
 #include "Framework/Renderer.h"
 #include "Framework/Timer.h"
 
-void Bullet_Init(Bullet* bullet, struct tagGun* gun)
+void Bullet_Init(Bullet* bullet, struct tagGun* gun, enum TextColor color)
 {
 	SetCoord(bullet->Coord, 0, 0);
 	bullet->ElapsedTimeForMove = 0.0f;
 	bullet->IsActive = false;
 	bullet->ActiveTime = 3.0f;
-	TextCopy(&bullet->Text, L"¡Û", TEXT_COLOR_YELLOW | TEXT_COLOR_STRONG);
+	TextCopy(&bullet->Text, L"¡Û", color | TEXT_COLOR_STRONG);
 	bullet->Gun = gun;
 	bullet->Speed = 100.0f;
 }
@@ -36,6 +36,12 @@ void Bullet_Update(Bullet* bullet)
 
 	bullet->ActiveTime += Timer_GetDeltaTime();
 	if (bullet->ActiveTime >= 3.0f)
+	{
+		bullet->ActiveTime = 0.0f;
+		bullet->IsActive = false;
+		--bullet->Gun->BulletCount;
+	}
+	if (bullet->Coord.X >= 115)
 	{
 		bullet->ActiveTime = 0.0f;
 		bullet->IsActive = false;

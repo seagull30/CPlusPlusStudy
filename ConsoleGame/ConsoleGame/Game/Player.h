@@ -2,6 +2,7 @@
 
 #include "Common.h"
 #include "Gun.h"
+#include "monster.h"
 
 #include "Framework/Text.h"
 
@@ -9,7 +10,9 @@ typedef struct tagPlayer
 {
 	Text	Text;
 	COORD	Coord;
-	Gun		Gun;
+	Gun		yellowGun;
+	Gun		mazentaGun;
+
 } Player;
 
 void Player_Init(Player* player);
