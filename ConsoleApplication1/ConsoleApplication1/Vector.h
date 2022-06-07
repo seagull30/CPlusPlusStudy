@@ -71,16 +71,59 @@ private:
 
     // 예.2) 저장공간을 늘리는 함수를 아래처럼 추가하면 됩니다.
     // void Grow();
+    
+
     void clear()
     {
         delete[] _object;
     }
 
-    void reserve(size_t newCapacity)
+    MyObject* end()
     {
-        
+        return _object + _size;
     }
 
+    void reserve(size_t newCapacity)
+    {
+        if (newCapacity <= _capacity)
+        {
+            return;
+        }
+        
+        MyObject* newobject = new MyObject[newCapacity];
+
+        for (size_t i = 0; i < _size; ++i)
+        {
+            newobject[i]._id = _object[i]._id;
+        }
+
+        delete[] _object;
+
+        _object = newobject;
+        _capacity = newCapacity;
+
+    }
+    void erase(MyObject* pos)
+    {
+        if (_size == 0)
+        {
+            return;
+        }
+
+        MyObject* last = end() - 1;
+        if (pos == last)
+        {
+            --_size;
+            return ;
+        }
+
+        for (MyObject* iter = pos; iter != last; ++iter)
+        {
+            *iter = *(iter + 1);
+        }
+
+        --_size;
+    }
 
 public: // 생성자, 복사생성자, 할당연산자, 소멸자를 .cpp 파일에 구현합니다.
 
