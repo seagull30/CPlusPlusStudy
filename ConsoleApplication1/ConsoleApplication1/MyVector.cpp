@@ -1,28 +1,28 @@
-#include "Vector.h"
+#include "MyVector.h"
 #include <algorithm>
 
-MyVector::MyVector(int capacity) : _object(new MyObject[capacity]), _size(capacity), _capacity(capacity)
-{
-	for (int i = 0; i < capacity; ++i)
-	{
-		_object[i]._id = 0;
-	}
-}
 
-MyVector::MyVector(const MyVector& other) : _object(other._object), _size(other._size), _capacity(other._capacity)
+MyVector::MyVector(int capacity) : _container(new MyObject[capacity]), _size(0), _capacity(capacity) { }
+
+MyVector::MyVector(const MyVector& other) : _container(other._container), _size(other._size), _capacity(other._capacity)
 {
 	for (int i = 0; i < other._size; ++i)
 	{
-		_object[i] = other._object[i];
+		_container[i] = other._container[i];
 	}
 }
 
-MyVector& MyVector::operator=( MyVector& other)
+MyVector& MyVector::operator=(const MyVector& other)
 {
-	std::swap(_object, other._object);
-	std::swap(_size, other._size);
-	std::swap(_capacity, other._capacity);
-	return* this;
+	if (this == &other)
+	{
+		return*this;
+	}
+	MyVector temp(other);
+	std::swap(_container, temp._container);
+	std::swap(_size, temp._size);
+	std::swap(_capacity, temp._capacity);
+	return*this;
 }
 
 MyVector::~MyVector()
@@ -63,8 +63,8 @@ MyObject* MyVector::FindById(int MyObjectId) const
 {
 	for (size_t i = 0; i < _size; ++i)
 	{
-		if (MyObjectId == _object[i]._id)
-			return &_object[i];
+		if (MyObjectId == _container[i]._id)
+			return &_container[i];
 	}
 	return nullptr;
 }
@@ -72,40 +72,59 @@ MyObject* MyVector::FindById(int MyObjectId) const
 // Trims the capacity of this vector to current size.
 void MyVector::TrimToSize()
 {
-	
-		MyObject* newobject = new MyObject[_size];
-		for (size_t i = 0; i < _size; ++i)
-		{
-			newobject[i]._id = _object[i]._id;
-		}
+	if (_size == _capacity)
+	{
+		return;
+	}
 
-		delete[] _object;
+	reallocate(_size);
 
-		_object = newobject;
-		_capacity = _size;
-		
 }
 
 // Returns the MyObject instance at the specified index.
 MyObject& MyVector::operator[](size_t index)
 {
-	return _object[index];
+	return _container[index];
 }
 
 // Returns string representation of the vector.
 std::string MyVector::ToString() const
 {
+	std::string str= "[ " + std::to_string(_container[0]._id);
+	for (size_t i = 1; i < _size; ++i)
+	{
+		str += ", ";
+		str += std::to_string(_container[i]._id);
+	}
+	str += "]";
+	/*
+	#include <sstream>
+	
+	std::stringstream ss;
+	ss << "[";
+	for (size_t i = 0; i < _size; ++i)
+	{
+		ss<< _container[i]._id << ", ";
+	}
+	ss << "]";
+	
+	return 
+	*/
 
+	return str;
 }
 
 // Remove all MyObject instances with the given ID in this vector.
 void MyVector::RemoveAll(int MyObjectId)
 {
-	for (size_t i = 0; i < _size; ++i)
+	size_t size = _size;
+	for (size_t i = 0; i < size; ++i)
 	{
-		if (_object[i]._id == MyObjectId)
+		if (_container[i]._id == MyObjectId)
 		{
-			MyVector::erase(&_object[i]);
+			erase(&_container[i]);
+			--i;
+			--size;
 		}
 	}
 }
@@ -116,5 +135,20 @@ void MyVector::RemoveAll(int MyObjectId)
 // the size of the MyVector array to be returned.
 MyVector* MyVector::GroupById(int* numGroups)
 {
+	MyVector ids;
+	for (size_t i = 0; i < _size; ++i)
+	{
+		if (nullptr == ids.FindById(_container[i]._id))
+		{
+			ids.Add(_container[i]._id);
+		}
+	}
 
+	int count = ids.GetSize();
+	MyVector* result = new MyVector[count];
+
+	for (size_t i = 0; i < _size; ++i)
+	{
+
+	}
 }

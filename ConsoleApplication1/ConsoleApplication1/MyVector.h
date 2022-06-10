@@ -60,11 +60,11 @@ class MyVector
 {
 private:
 
-    MyObject* _object;
-    //int* _container;
-    size_t  _size;
-    size_t  _capacity;
-    // 구현에 필요한 멤버 추가 함수/변수들을 자유롭게 아래에 정의 합니다.
+	MyObject* _container = nullptr;
+	//int* _container;
+	size_t  _size = 0;
+	size_t  _capacity = 0;
+	// 구현에 필요한 멤버 추가 함수/변수들을 자유롭게 아래에 정의 합니다.
 
     // 예.1) 사이즈를 저장하는 멤버변수를 아래처럼 추가하면 됩니다.
     // int _vectorSize;
@@ -75,12 +75,29 @@ private:
 
     void clear()
     {
-        delete[] _object;
+        delete[] _container;
+        _container = nullptr;
+        _size = 0;
+        _capacity = 0;
     }
 
     MyObject* end()
     {
-        return _object + _size;
+        return _container + _size;
+    }
+    void reallocate(int newCapacity)
+    {
+        MyObject* newcontainer = new MyObject[newCapacity];
+
+        for (size_t i = 0; i < _size; ++i)
+        {
+            newcontainer[i]._id = _container[i]._id;
+        }
+
+        delete[] _container;
+
+        _container = newcontainer;
+        _capacity = newCapacity;
     }
 
     void reserve(size_t newCapacity)
@@ -90,17 +107,7 @@ private:
             return;
         }
         
-        MyObject* newobject = new MyObject[newCapacity];
-
-        for (size_t i = 0; i < _size; ++i)
-        {
-            newobject[i]._id = _object[i]._id;
-        }
-
-        delete[] _object;
-
-        _object = newobject;
-        _capacity = newCapacity;
+        reallocate(newCapacity);
 
     }
     void erase(MyObject* pos)
@@ -121,11 +128,12 @@ private:
         {
             *iter = *(iter + 1);
         }
-
+        
         --_size;
     }
 
 public: // 생성자, 복사생성자, 할당연산자, 소멸자를 .cpp 파일에 구현합니다.
+    MyVector() = default;
 
 	// Constructor.
 	MyVector(int capacity);
@@ -134,7 +142,7 @@ public: // 생성자, 복사생성자, 할당연산자, 소멸자를 .cpp 파일에 구현합니다.
 	MyVector(const MyVector& other);
 
 	// Assignment operator.
-	MyVector& operator=( MyVector& other);
+	MyVector& operator=(const MyVector& other);
 
 	// Destructor.
     ~MyVector();
