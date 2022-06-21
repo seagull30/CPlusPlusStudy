@@ -231,12 +231,7 @@ public:
     ForwardList& operator=(const ForwardList& rhs);
 
     // 소멸자
-    ~ForwardList()
-    {
-        clear();
-        delete _head;
-        delete _end;
-    }
+    ~ForwardList();
 
     // 첫 번째 요소를 반환한다.
     int& front();

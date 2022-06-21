@@ -1,12 +1,110 @@
 #include "FowardList.h"
 #include <utility>
 
+ForwardList::Node::Node(int data, Node* next) : Data(data), Next(next)
+{
+
+}
+
+ForwardList::Node::~Node()
+{
+	Next = nullptr;
+}
+
+ForwardList::const_iterator::const_iterator(Node* p) :_p(p)
+{
+
+}
+
+ForwardList::const_iterator::~const_iterator()
+{
+	_p = nullptr;
+}
+
+
+
+const int& ForwardList::const_iterator::operator*() const
+{
+	return _p->Data;
+}
+
+const int* ForwardList::const_iterator::operator->() const
+{
+	return &(_p->Data);
+}
+
+ForwardList::const_iterator& ForwardList::const_iterator::operator++()
+{
+	_p = _p->Next;
+	return *this;
+}
+ForwardList::const_iterator ForwardList::const_iterator::operator++(int)
+{
+	const_iterator temp = *this;
+	_p = _p->Next;
+
+	return temp;
+}
+
+bool ForwardList::const_iterator::operator==(const const_iterator& rhs) const
+{
+	if (_p == rhs._p)
+		return true;
+	else
+		return false;
+}
+
+bool ForwardList::const_iterator::operator!=(const const_iterator& rhs) const
+{
+	return !(*this == rhs);
+}
+
+bool ForwardList::const_iterator::operator==(nullptr_t p) const
+{
+	if (_p == nullptr)
+		return true;
+	else
+		return false;
+}
+bool ForwardList::const_iterator::operator!=(nullptr_t p) const
+{
+	return !(*this == nullptr);
+}
+
+ForwardList::iterator::iterator(Node* p) : const_iterator(p)
+{
+	
+}
+
+int& ForwardList::iterator::operator*() const
+{
+	return (int&)const_iterator::operator*();
+}
+
+int* ForwardList::iterator::operator->() const
+{
+	return (int*)const_iterator::operator->();
+}
+
+ForwardList::iterator& ForwardList::iterator::operator++()
+{
+		const_iterator::operator++();
+		return *this;
+}
+
+ForwardList::iterator ForwardList::iterator::operator++(int)
+{
+	iterator temp = *this;
+	const_iterator::operator++();
+	return  temp;
+}
+
 ForwardList::ForwardList()
 {
 	_head->Next = _end;
 }
 
-explicit ForwardList::ForwardList(size_t count) : ForwardList()
+ForwardList::ForwardList(size_t count) : ForwardList()
 {
 	
 	for (size_t i = 0; i < count; ++i)
@@ -30,8 +128,8 @@ ForwardList& ForwardList::operator=(const ForwardList& rhs)
 		ForwardList temp(rhs);
 		std::swap(_head, temp._head);
 		std::swap(_end, temp._end);
-
 	}
+	return *this;
 }
 
 
@@ -100,16 +198,13 @@ ForwardList::iterator ForwardList::insert_after(const_iterator pos, int value)
 
 ForwardList::iterator ForwardList::erase_after(const_iterator pos)
 {
-	if (empty())
-	{
-		return end();
-	}
 	Node* where = pos._p;
 	Node* removed = where->Next;
 	where->Next = removed->Next;
-	removed->Next = nullptr;
+	
+	delete removed;
 
-	return removed;
+	return where->Next;
 }
 
 void ForwardList::push_front(int value)

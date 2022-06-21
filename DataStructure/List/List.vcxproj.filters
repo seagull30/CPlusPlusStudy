@@ -21,9 +21,15 @@
     <ClCompile Include="ForwardList.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FowardList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
