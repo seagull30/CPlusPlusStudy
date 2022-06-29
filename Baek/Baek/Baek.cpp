@@ -1250,6 +1250,7 @@ int main()
 */
 #pragma endregion
 
+/*
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -1258,8 +1259,9 @@ std::vector<int> v[100000];
 bool isVisited[100000] = {};
 
 int N, M, R;
-void def()
+void def(int V)
 {
+	static bool isVisited[100000];
 
 }
 
@@ -1277,10 +1279,11 @@ int main()
 		std::sort(v[i].begin(), v[i].end());
 
 
+
+
+
 }
-
-
-
+*/
 
 #pragma region 백준_1260_DFS와BFS
 /*
@@ -1429,14 +1432,27 @@ int main()
 #include <iostream>
 #include <algorithm>
 #include <queue>
-
+#include <string>
 bool arr[25][25] = {};
-int complex[123456789] = {};
-int count = 0;
+int complex[312] = {};
+int N, count = 0;
 
-void countComplex(int n)
+void countComplex(int r, int c)
 {
-	
+	arr[r][c] = false;
+	++complex[count];
+	if (r < N-1)
+		if (arr[r + 1][c])
+			countComplex(r + 1, c);
+	if (r > 0)
+		if (arr[r - 1][c])
+			countComplex(r - 1, c);
+	if (c < N-1)
+		if (arr[r][c + 1])
+			countComplex(r, c + 1);
+	if (c > 0)
+		if (arr[r][c - 1])
+			countComplex(r, c - 1);
 }
 
 int main()
@@ -1445,30 +1461,30 @@ int main()
 	std::cin.tie(nullptr);
 	std::cout.tie(nullptr);
 
-	int N;
 	std::cin >> N;
 	for (int i = 0; i < N; ++i)
 	{
+		std::string str;
+		std::cin >> str;
 		for (int j = 0; j < N; ++j)
 		{
-			std::cin >> arr[i][j];
+			if (str[j] == '1')
+				arr[i][j] = true;
 		}
 	}
-	
+
 	for (int i = 0; i < N; ++i)
 	{
 		for (int j = 0; j < N; ++j)
 		{
 			if (arr[i][j])
 			{
-				countComplex();
+				countComplex(i, j);
 				++count;
 			}
 		}
 	}
 
-
-	
 	std::sort(complex, complex + count);
 	std::cout << count << "\n";
 	for (int i = 0; i < count; ++i)
@@ -1482,9 +1498,256 @@ int main()
 
 #pragma region 백준_1012_유기농배추
 /*
+#include <iostream>
+
+int M, N, K;
+bool arr[50][50] = {};
+
+void countBug( int r, int c)
+{
+	arr[r][c] = false;
+
+	if (r < N - 1)
+		if (arr[r + 1][c])
+			countBug(r + 1, c);
+	if (r > 0)
+		if (arr[r - 1][c])
+			countBug( r - 1, c);
+	if (c < M - 1)
+		if (arr[r][c + 1])
+			countBug( r, c + 1);
+	if (c > 0)
+		if (arr[r][c - 1])
+			countBug( r, c - 1);
+}
+
 int main()
 {
+	int testCase;
+	std::cin >> testCase;
+	for (int z = 0; z < testCase; ++z)
+	{
 
+		std::cin >> M >> N >> K;
+
+		for (int i = 0; i < K; ++i)
+		{
+			int a, b;
+			std::cin >> a >> b;
+			arr[b][a] = true;
+		}
+		int count=0;
+		for (int i = 0; i < N; ++i)
+		{
+			for (int j = 0; j < M; ++j)
+			{
+				if (arr[i][j])
+				{
+					countBug(i, j);
+					++count;
+				}
+			}
+		}
+		std::cout << count << "\n";
+	}
 }
 */
+#pragma endregion
+
+#pragma region 백준_2178_미로탐색
+/*
+#include <iostream>
+#include <string>
+#include <queue>
+#include <utility>
+bool map[100][100] = {};
+short N, M;
+
+//int result = 987654321;
+//int count = 0;
+//void findExit(int r, int c)
+//{
+//	map[r][c] = false;
+//	++count;
+//	if (r == N - 1 && c == M - 1)
+//	{
+//		if (count < result)
+//			result = count;
+//	}
+//	if (r < N - 1)
+//		if (map[r + 1][c])
+//			findExit(r + 1, c);
+//	if (r > 0)
+//		if (map[r - 1][c])
+//			findExit(r - 1, c);
+//	if (c < M - 1)
+//		if (map[r][c + 1])
+//			findExit(r, c + 1);
+//	if (c > 0)
+//		if (map[r][c - 1])
+//			findExit(r, c - 1);
+//	--count;
+//	map[r][c] = true;
+//}
+
+int findExit()
+{
+	std::queue<std::pair<short, short>> path;
+	int count = 1;
+	path.push({ 0, 0 });
+	map[0][0] = false;
+	static const int dx[4] = { 1,0,-1,0 };
+	static const int dy[4] = { 0,1,0,-1 };
+	std::pair<short, short> lastIn = {0,0};
+	while (!path.empty())
+	{
+		int x = path.front().first;
+		int y = path.front().second;
+
+
+		if (x == N - 1 && y == M - 1)
+		{
+			break;
+		}
+		for (short i = 0; i < 4; ++i)
+		{
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+			if (nx < 0 || nx >= N || ny < 0 || ny >= M)
+				continue;
+			if (map[nx][ny])
+			{
+				path.push({ nx,ny });
+				map[nx][ny] = false;
+			}
+		}
+		if (path.front().first == lastIn.first && path.front().second == lastIn.second)
+		{
+			++count;
+			lastIn = { path.back().first,path.back().second};
+		}
+		path.pop();
+	}
+	while (!path.empty())
+		path.pop();
+	return count;
+}
+
+int main()
+{
+	std::cin >> N >> M;
+	for (int i = 0; i < N; ++i)
+	{
+		std::string str;
+		std::cin >> str;
+		for (int j = 0; j < M; ++j)
+		{
+			if (str[j] == '1')
+				map[i][j] = true;
+		}
+	}
+	//findExit(0, 0);
+	//std::cout << result;
+
+	std::cout << findExit();
+	return 0;
+}
+*/
+#pragma endregion
+
+#pragma region 백준_7576_토마토
+
+#include <iostream>
+#include <queue>
+
+int box[1000][1000] = {};
+std::queue<std::pair<int, int>> tomato;
+int M, N;
+
+int time()
+{
+	static const int dr[4] = { 1,0,-1,0 };
+	static const int dc[4] = { 0,1,0,-1 };
+	int count = 0;
+	int temp = 0;
+	std::pair<int, int> last;
+	if(!tomato.empty())
+		last = { tomato.back().first ,tomato.back().second };
+	while (!tomato.empty())
+	{
+		int r = tomato.front().first;
+		int c = tomato.front().second;
+		for (int i = 0; i < 4; ++i)
+		{
+			int nr = r + dr[i];
+			int nc = c + dc[i];
+			if (nr < 0 || nr >= N || nc < 0 || nc >= M)
+				continue;
+			if (box[nr][nc] == 0)
+			{
+				box[nr][nc] = 1;
+				tomato.push({ nr,nc });
+				++temp;
+			}
+		}
+		if (last.first == tomato.front().first && last.second == tomato.front().second)
+		{
+			if (temp != 0)
+			{
+				++count;
+				temp = 0;
+			}
+			last = { tomato.back().first,tomato.back().second };
+		}
+		tomato.pop();
+	}
+	return count;
+}
+
+int main()
+{
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	std::cout.tie(nullptr);
+
+	std::cin >> M >> N;
+	for (int i = 0; i < N; ++i)
+	{
+		for (int j = 0; j < M; ++j)
+		{
+			std::cin >> box[i][j];
+			if (box[i][j] == 1)
+				tomato.push({ i,j });
+		}
+	}
+	int d = time();
+
+	bool isComplete = true;
+	for (int i = 0; i < N; ++i)
+	{
+		for (int j = 0; j < M; ++j)
+		{
+			if (box[i][j] == 0)
+			{
+				isComplete = false;
+				break;
+			}
+		}
+	}
+	if (isComplete)
+	{
+		std::cout << d;
+	}
+	else
+		std::cout << "-1";
+}
+
+#pragma endregion
+
+
+
+#pragma region 백준_5639_이진검색트리
+
+
+
 #pragma endregion
