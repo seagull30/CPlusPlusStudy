@@ -1656,7 +1656,7 @@ int main()
 #pragma endregion
 
 #pragma region 백준_7576_토마토
-
+/*
 #include <iostream>
 #include <queue>
 
@@ -1741,10 +1741,325 @@ int main()
 	else
 		std::cout << "-1";
 }
-
+*/
 #pragma endregion
 
+#pragma region 백준_7569_토마토
+/*
+#include <iostream>
+#include <queue>
 
+int box[100][100][100] = {};
+std::queue<std::pair<std::pair<int, int>, int>> tomato;
+int  N, M, H;
+
+int time()
+{
+	static const int dx[6] = { 1,0,0,-1,0,0 };
+	static const int dy[6] = { 0,1,0,0,-1,0 };
+	static const int dz[6] = { 0,0,1,0,0,-1 };
+	int count = 0;
+	int temp = 0;
+	std::pair<std::pair<int, int>, int> last;
+	if(!tomato.empty())
+		last = { {tomato.back().first.first,tomato.back().first.second},tomato.back().second };
+	while (!tomato.empty())
+	{
+		int x = tomato.front().first.first;
+		int y = tomato.front().first.second;
+		int z = tomato.front().second;
+		for (int i = 0; i < 6; ++i)
+		{
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+			int nz = z + dz[i];
+			if (nx < 0 || nx >= H || ny < 0 || ny >= M || nz < 0 || nz >= N)
+				continue;
+			if (box[nx][ny][nz] == 0)
+			{
+				box[nx][ny][nz] = 1;
+				tomato.push({ {nx,ny},nz });
+				++temp;
+			}
+		}
+		if (last.first.first == tomato.front().first.first&& last.first.second == tomato.front().first.second
+			&& last.second == tomato.front().second)
+		{
+			if (temp != 0)
+			{
+				++count;
+				temp = 0;
+			}
+			last = { {tomato.back().first.first,tomato.back().first.second},tomato.back().second};
+		}
+		tomato.pop();
+	}
+	return count;
+}
+
+int main()
+{
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	std::cout.tie(nullptr);
+
+	std::cin >> N >> M >> H;
+	for (int i = 0; i < H; ++i)
+	{
+		for (int j = 0; j < M; ++j)
+		{
+			for (int k = 0; k < N; ++k)
+			{
+				std::cin >> box[i][j][k];
+				if (box[i][j][k] == 1)
+					tomato.push({ {i,j},k });
+
+			}
+		}
+	}
+	int d = time();
+
+	bool isComplete = true;
+	for (int i = 0; i < H; ++i)
+	{
+		for (int j = 0; j < M; ++j)
+		{
+			for (int k = 0; k < N; ++k)
+			{
+				if (box[i][j][k] == 0)
+				{
+					isComplete = false;
+					break;
+				}
+			}
+
+		}
+	}
+	if (isComplete)
+	{
+		std::cout << d;
+	}
+	else
+		std::cout << "-1";
+}
+*/
+#pragma endregion
+
+#pragma region 백준_1697_숨바꼭질
+/*
+#include <iostream>
+#include <queue>
+
+int sp, bp;
+bool isVisited[100001] = {};
+int bfs()
+{
+	std::queue<int> q;
+	q.push(sp);
+	isVisited[sp] = true;
+	int last = q.back();
+	int count = 0;
+	while (!q.empty())
+	{
+		int pos = q.front();
+		if (pos == bp)
+			break;
+		if (pos > 0)
+			if (!isVisited[pos - 1])
+			{
+			q.push(pos - 1);
+			isVisited[pos - 1] = true;
+			}
+		if (pos < 100000)
+			if (!isVisited[pos + 1])
+			{
+			q.push(pos + 1);
+			isVisited[pos + 1] = true;
+			}
+		if (pos * 2 <= 100000)
+			if(!isVisited[pos*2])
+		{
+			q.push(pos * 2);
+			isVisited[pos * 2] = true;
+		}
+
+		if (last == q.front())
+		{
+			last = q.back();
+			++count;
+		}
+		q.pop();
+	}
+	return count;
+}
+
+int main()
+{
+	std::cin >> sp >> bp;
+
+	std::cout << bfs();
+	return 0;
+}
+*/
+#pragma endregion
+
+#pragma region 백준_7562_나이트의이동
+/*
+#include <iostream>
+#include <queue>
+
+int testCase;
+short I, px, py, ex, ey;
+
+int bfs()
+{
+	bool isVisited[300][300] = {};
+	static const short dx[8] = { 2,2,-2,-2,1,-1,1,-1 };
+	static const short dy[8] = { 1,-1,1,-1,2,2,-2,-2 };
+	std::queue<std::pair<short, short>> q;
+	q.push({ px,py });
+	isVisited[px][py] = true;
+	std::pair<short, short> last = { q.back().first,q.back().second };
+	int count = 0;
+	while (!q.empty())
+	{
+		short x = q.front().first;
+		short y = q.front().second;
+		if (x == ex && y == ey)
+		{
+			break;
+		}
+		for (int i = 0; i < 8; ++i)
+		{
+			short nx = x + dx[i];
+			short ny = y + dy[i];
+
+			if (nx<0 || nx>=I || ny<0 || ny>=I)
+				continue;
+			if (isVisited[nx][ny])
+				continue;
+
+			q.push({ nx,ny });
+			isVisited[nx][ny] = true;
+
+		}
+		if (last.first == q.front().first && last.second == q.front().second)
+		{
+			++count;
+			last = { q.back().first,q.back().second };
+		}
+		q.pop();
+	}
+	return count;
+}
+
+int main()
+{
+	std::cin >> testCase;
+	for (int i = 0; i < testCase; ++i)
+	{
+		std::cin >> I >> px >> py >> ex >> ey;
+		std::cout << bfs() << "\n";
+	}
+}
+*/
+#pragma endregion
+
+#pragma region 백준_16928_뱀과사다리게임
+/*
+#include <iostream>
+#include <queue>
+
+std::pair<int, int> ladder[15];
+std::pair<int, int> snake[15];
+bool isVisited[101];
+
+int N, M;
+
+int bfs()
+{
+	int count = 1;
+	bool isVisited[101] = {};
+	std::queue<int> q;
+	q.push(1);
+	isVisited[1] = true;
+	int last = q.back();
+	static const int dp[6] = { 1,2,3,4,5,6 };
+	while (!q.empty())
+	{
+		bool isExit = false;
+		int pos = q.front();
+		for (int i = 0; i < N; ++i)
+		{
+			if (ladder[i].first == pos)
+			{
+				pos = ladder[i].second;
+			}
+		}
+		for (int i = 0; i < M; ++i)
+		{
+			if (snake[i].first == pos)
+			{
+				pos = snake[i].second;
+			}
+		}
+
+		for (int i = 0; i < 6; ++i)
+		{
+			int np = pos + dp[i];
+			if (isVisited[np])
+				continue;
+			
+			if (np == 100)
+			{
+				isExit = true;
+				break;
+			}
+			isVisited[np] = true;
+			q.push(np);
+		}
+		if (isExit)
+			break;
+		if (q.front() == last)
+		{
+			last = q.back();
+			++count;
+		}
+		q.pop();
+	}
+	return count;
+}
+
+int main()
+{
+	std::cin >> N >> M;
+	for (int i = 0; i < N; ++i)
+	{
+		int a, b;
+		std::cin >> a >> b;
+		ladder[i] = { a,b };
+	}
+	for (int i = 0; i < M; ++i)
+	{
+		int a, b;
+		std::cin >> a >> b;
+		snake[i] = { a,b };
+	}
+	std::cout << bfs();
+}
+*/
+#pragma endregion
+
+#pragma region 백준_11725_트리의부모찾기
+
+#include <iostream>
+
+int main()
+{
+
+}
+
+#pragma endregion
 
 #pragma region 백준_5639_이진검색트리
 
