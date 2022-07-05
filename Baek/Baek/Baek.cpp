@@ -826,7 +826,7 @@ int main()
 #pragma endregion
 
 #pragma region 백준_1966_프린터큐_X
-/*
+
 #include <iostream>
 #include <queue>
 
@@ -834,7 +834,7 @@ int main()
 {
 	int loopCount;
 	std::cin >> loopCount;
-	std::queue<int> importance;
+	std::queue<std::pair<int,int>> importance;
 	for (int i = 0; i < loopCount; ++i)
 	{
 		int numberOfDocument;
@@ -844,19 +844,22 @@ int main()
 		{
 			int input;
 			std::cin >> input;
-			importance.push(input);
+			importance.push({ j,input });
 		}
-
-
-
-
+		int count = 1;
+		while (importance.front().first != findDocumentNumber)
+		{
+			importance.pop();
+			++count;
+		}
+		std::cout << count << "\n";
 
 		while (!importance.empty())
 			importance.pop();
 	}
 	return 0;
 }
-*/
+
 #pragma endregion
 
 #pragma region 백준_1021_회전하는큐
@@ -2009,7 +2012,7 @@ int bfs()
 			int np = pos + dp[i];
 			if (isVisited[np])
 				continue;
-			
+
 			if (np == 100)
 			{
 				isExit = true;
@@ -2051,15 +2054,383 @@ int main()
 #pragma endregion
 
 #pragma region 백준_11725_트리의부모찾기
-
+/*
 #include <iostream>
+#include <vector>
+#include <queue>
+std::vector<int> v[100001];
+int parent[100001] = {};
+void findParent()
+{
+	bool isVisited[100001] = {};
+	std::queue<int> q;
+	q.push(1);
+	isVisited[1] = true;
+	while (!q.empty())
+	{
+		int node = q.front();
+		for (int nextNode : v[node])
+		{
+			if (isVisited[nextNode] == false)
+			{
+				q.push(nextNode);
+				isVisited[nextNode] = true;
+				parent[nextNode] = q.front();
+			}
+		}
+		q.pop();
+	}
+}
+
+int main()
+{
+	int non;
+	std::cin >> non;
+	for (int i = 1; i < non; ++i)
+	{
+		int a, b;
+		std::cin >> a >> b;
+		v[a].push_back(b);
+		v[b].push_back(a);
+	}
+
+	findParent();
+
+	for (int i = 2; i <= non; ++i)
+	{
+		std::cout << parent[i] << "\n";
+	}
+
+}
+*/
+#pragma endregion
+
+#pragma region 끝이없음_x
+/*
+#include <iostream>
+#include <string>
+
+std::string str1;
+std::string str2;
+int loopcount;
+int min, max;
+
+void string(std::string input, std::string body)
+{
+	std::string temp;
+	for (int i = 0; i < body.size(); ++i)
+	{
+		if (body[i] == '$')
+			temp += input;
+		else
+			temp += body[i];
+	}
+
+	str1 = temp;
+}
+
 
 int main()
 {
 
+
+
+	std::cin >> str1 >> str2 >> loopcount >> min >> max;
+
+	for (int i = 0; i < loopcount; ++i)
+	{
+		string(str1, str2);
+	}
+
+	for (int i = min - 1; i < max; ++i)
+	{
+		if (i > str1.size() - 1)
+			std::cout << '-';
+		else
+			std::cout << str1[i];
+	}
+
 }
+*/
 
 #pragma endregion
+
+/*
+#include <iostream>
+#include <vector>
+
+struct Graph
+{
+	std::vector<int> trunk;
+	bool isBpartite;
+};
+Graph graph[20000];
+
+
+int main()
+{
+	std::ios::sync_with_stdio()
+	int testCase;
+	std::cin >> testCase;
+	for (int i = 0; i < testCase; ++i)
+	{
+
+	}
+}
+*/
+
+#pragma region 백준_4342_유클리드게임_X
+/*
+#include <iostream>
+std::pair<char, int> A;
+std::pair<char, int> B;
+bool isAWin(std::pair<char, int> big, std::pair<char, int> small)
+{
+	if (small.second == 0)
+	{
+		if (small.first == 'A')
+			return false;
+		else
+			return true;
+	}
+
+	int temp = big.second - small.second;
+	if (temp <= 0)
+	{
+		big.second = 0;
+		return isAWin(small, big);
+	}
+
+	if (small.second > temp)
+	{
+		big.second = temp;
+		return isAWin(small, big);
+	}
+	else
+	{
+		big.second = temp;
+		return isAWin(big, small);
+	}
+
+}
+
+int main()
+{
+	int a, b;
+	std::cin >> a >> b;
+	while (a != 0 && b != 0)
+	{
+		A = { 'A',a };
+		B = { 'B',b };
+
+		if (a > b ? isAWin(A, B) : isAWin(B, A))
+			std::cout << "A wins\n";
+		else
+			std::cout << "B wins\n";
+		std::cin >> a >> b;
+	}
+	return 0;
+}
+*/
+/*
+#include <iostream>
+
+int main()
+{
+	int a, b;
+	std::cin >> a >> b;
+	while (a != 0 && b != 0)
+	{
+		bool isAWin = true;
+		while (a != 0 && b != 0)
+		{
+			if (a > b)
+			{
+				if (a % b == 0)
+				{
+					b = 0;
+				}
+				else
+				{
+					if (a / b >= 2)
+					{
+						if (b % (a % b) == 0)
+							a = (a % b) + a;
+						else
+							a %= b;
+					}
+					else
+						a %= b;
+
+				isAWin = !isAWin;
+				}
+			}
+			else if (a < b)
+			{
+				if (b % a == 0)
+				{
+					a = 0;
+				}
+				else
+				{
+					if (b / a >= 2)
+					{
+						if (a % (b % a) == 0)
+							b = (b % a) + b;
+						else
+							b %= a;
+					}
+					else
+						b %= a;
+
+					isAWin = !isAWin;
+				}
+			}
+
+		}
+
+		if (isAWin)
+			std::cout << "A wins\n";
+		else
+			std::cout << "B wins\n";
+		std::cin >> a >> b;
+	}
+}
+*/
+#pragma endregion
+
+#pragma region 백준_1978_소수찾기
+/*
+#include <iostream>
+
+int main()
+{
+	int testCase;
+	std::cin >> testCase;
+	int count = testCase;
+	for (int i = 0; i < testCase; ++i)
+	{
+		int num;
+		std::cin >> num;
+		if (num <= 1)
+		{
+			--count;
+		}
+		else
+		{
+			for (int j = 2; j < num; ++j)
+			{
+				if (num % j == 0)
+				{
+					--count;
+					break;
+				}
+			}
+		}
+	}
+	std::cout << count;
+}
+*/
+#pragma endregion
+
+#pragma region 백준_9020_골드바흐의추측
+/*
+#include <iostream>
+#define MAX 10000
+
+bool arr[MAX + 1] = {};
+
+void isDecimal()
+{
+	arr[0] = true;
+	arr[1] = true;
+	int check = 2;
+	while (check != MAX - 1)
+	{
+		for (int i = check + 1; i <= MAX; ++i)
+		{
+			if (!arr[i])
+				if (i % check == 0)
+					arr[i] = true;
+		}
+
+		for (int i = check + 1; i <= MAX; ++i)
+		{
+			if (!arr[i])
+			{
+				check = i;
+				break;
+			}
+			if (i == MAX - 1)
+				check = i;
+		}
+	}
+}
+
+int main()
+{
+	isDecimal();
+	int testCase;
+	std::cin >> testCase;
+	for (int i = 0; i < testCase; ++i)
+	{
+		int num;
+		std::cin >> num;
+		std::pair<int, int> result = { 0,10000 };
+
+		for (int j = 2; j <= num / 2; ++j)
+		{
+			if (!arr[j])
+			{
+				if (!arr[num - j])
+				{
+					if (num - 2 * j < result.second - result.first)
+						result = { j,num - j };
+				}
+			}
+		}
+
+		std::cout << result.first << " " << result.second << "\n";
+	}
+
+	return 0;
+}
+*/
+#pragma endregion
+
+#pragma region 백준_골드바흐_X
+/*
+#include <iostream>
+
+int main() {
+	int A, B;
+	bool isNDecimal[1000001] = {  };
+	isNDecimal[1] = true;
+	for (int i = 2; i <= 1000000; i++)
+	{
+		for (int j = 2; i * j <= 1000000; j++)
+			isNDecimal[i * j] = true;
+	}
+
+	std::cin >> A;
+	for (int k = 0; k < A; k++)
+	{
+		std::cin >> B;
+		int count = 0;
+		for (int p = B / 2; p > 0; p--)
+		{
+			if (!isNDecimal[p] && !isNDecimal[B - p])
+			{
+				++count;
+			}
+		}
+		std::cout << count << "\n";
+	}
+	return 0;
+}
+*/
+#pragma endregion
+
 
 #pragma region 백준_5639_이진검색트리
 
