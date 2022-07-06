@@ -825,8 +825,8 @@ int main()
 */
 #pragma endregion
 
-#pragma region 백준_1966_프린터큐_X
-
+#pragma region 백준_1966_프린터큐
+/*
 #include <iostream>
 #include <queue>
 
@@ -834,7 +834,8 @@ int main()
 {
 	int loopCount;
 	std::cin >> loopCount;
-	std::queue<std::pair<int,int>> importance;
+	std::queue<std::pair<int, int>> q;
+	std::priority_queue<int> pq;
 	for (int i = 0; i < loopCount; ++i)
 	{
 		int numberOfDocument;
@@ -844,22 +845,29 @@ int main()
 		{
 			int input;
 			std::cin >> input;
-			importance.push({ j,input });
+			q.push({ j,input });
+			pq.push(input);
 		}
-		int count = 1;
-		while (importance.front().first != findDocumentNumber)
-		{
-			importance.pop();
-			++count;
-		}
-		std::cout << count << "\n";
 
-		while (!importance.empty())
-			importance.pop();
+		int count = 1;
+		while (!q.empty())
+		{
+			while (pq.top() != q.front().second)
+			{
+				q.emplace(q.front().first,q.front().second);
+				q.pop();
+			}
+			if (q.front().first == findDocumentNumber)
+				std::cout << count << "\n";
+			else
+				++count;
+			q.pop();
+			pq.pop();
+		}
 	}
 	return 0;
 }
-
+*/
 #pragma endregion
 
 #pragma region 백준_1021_회전하는큐
@@ -2431,9 +2439,189 @@ int main() {
 */
 #pragma endregion
 
-
 #pragma region 백준_5639_이진검색트리
+/*
+#include <iostream>
 
+struct Node
+{
+	int _Value;
+	//Node* _Parent;
+	Node* _Right;
+	Node* _Left;
+};
 
+Node node[10000] = { 0, };
+int count = 0;
 
+void insert(int value,int count)
+{
+	if (count == 0)
+	{
+		node[0]._Value= value;
+		return;
+	}
+	else
+	{
+		Node* parent = &node[0];
+		while (1)
+		{
+			if (parent->_Value > value)
+			{
+				if (parent->_Left == nullptr)
+				{
+					node[count]._Value = value;
+					//node[count]._Parent= parent;
+					parent->_Left = &node[count];
+					return;
+				}
+				else
+				{
+					parent = parent->_Left;
+				}
+			}
+			else
+			{
+				if (parent->_Right == nullptr)
+				{
+					node[count]._Value = value;
+					//node[count]._Parent = parent;
+					parent->_Right = &node[count];
+					return;
+				}
+				else
+				{
+					parent = parent->_Right;
+				}
+			}
+		}
+	}
+}
+void printnode(Node* x) {
+	if (x != NULL) {
+		printnode(x->_Left);
+		printnode(x->_Right);
+		std::cout << x->_Value << "\n";
+	}
+}
+
+//void print_post_order()
+//{
+//	Node* where = &node[0];
+//	bool isprint[10000] = {};
+//	while (count != 0)
+//	{
+//		if (where->_Left != nullptr && !isprint[where->_Left->_Value])
+//		{
+//			where = where->_Left;
+//			continue;
+//		}
+//		else if (where->_Right != nullptr && !isprint[where->_Right->_Value])
+//		{
+//			where = where->_Right;
+//			continue;
+//		}
+//		else
+//		{
+//			std::cout << where->_Value << "\n";
+//			isprint[where->_Value] = true;
+//			--count;
+//			if (where->_Parent != nullptr)
+//				where = where->_Parent;
+//		}
+//
+//
+//	}
+//
+//}
+
+int main()
+{
+	int num;
+	while (std::cin>>num)
+	{
+		if (num == 0)
+			break;
+		insert(num, count);
+		++count;
+	}
+
+	printnode(&node[0]);
+	//print_post_order();
+}
+*/
 #pragma endregion
+
+#pragma region 백준_1991_트리순회
+/*
+#include <iostream>
+#include <vector>
+
+struct Node
+{
+	char _data;
+	Node* _left;
+	Node* _right;
+};
+Node node[26];
+
+void insert(char pos,char left, char right)
+{
+	node[pos - 'A']._data = pos;
+	if (left != '.')
+		node[pos - 'A']._left = &node[left - 'A'];
+	if (right != '.')
+		node[pos - 'A']._right = &node[right - 'A'];
+}
+
+
+void pre(Node* pos)
+{
+	if (pos != nullptr)
+	{
+		std::cout << pos->_data;
+		pre(pos->_left);
+		pre(pos->_right);
+	}
+}
+void in(Node* pos)
+{
+	if (pos != nullptr)
+	{
+		in(pos->_left);
+		std::cout << pos->_data;
+		in(pos->_right);
+	}
+}
+void post(Node* pos)
+{
+	if (pos != nullptr)
+	{
+		post(pos->_left);
+		post(pos->_right);
+		std::cout << pos->_data;
+	}
+}
+
+int main()
+{
+	int N;
+	std::cin >> N;
+	for (int i = 0; i < N; ++i)
+	{
+		char v, l, r;
+		std::cin >> v >> l >> r;
+		insert(v, l, r);
+	}
+	pre(&node[0]);
+	std::cout << "\n";
+	in(&node[0]);
+	std::cout << "\n";
+	post(&node[0]);
+	std::cout << "\n";
+
+	return 0;
+}
+*/
+#pragma endregion
+
