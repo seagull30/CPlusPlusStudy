@@ -2662,3 +2662,17 @@ int main()
 }
 
 #pragma endreion
+
+
+#include<iostream>
+
+int N, r, c;
+
+
+
+
+int main()
+{
+	std::cin >> N >> r >> c;
+
+}
