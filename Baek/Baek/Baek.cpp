@@ -2629,50 +2629,9 @@ int main()
 
 #include <iostream>
 
-int arr[200001] = {};
-int begin = 100000, size = 0;
 int main()
 {
-	int loopcount;
-	std::cin >> loopcount;
-	for(int i=0;i<loopcount;++i)
-	{
-		int input;
-		std::cin >> input;
-		if (input == 0)
-		{
-			if (size == 0)
-			{
-				std::cout << "0\n";
-			}
-			else
-			{
-				std::cout << arr[begin] << "\n";
-				++begin;
-				--size;
-			}
-		}
-		else
-		{
-			if()
-		}
-	}
-
-
+	
 }
 
 #pragma endreion
-
-
-#include<iostream>
-
-int N, r, c;
-
-
-
-
-int main()
-{
-	std::cin >> N >> r >> c;
-
-}

@@ -1,0 +1,18 @@
+https://opentutorials.org/course/1
+
+# 기본 문법 - 태그
+- HTML 태그는 HTML 요소라고 부르며, HTML 문서를 구성하는 기본 단위
+    - ex) <stong>creating web pages</strong>
+    - 앞에 있는 태그를 열리는 태그 뒤에 있는 태그를 닫히는 태그라고 구분해서 부르기도 한다.
+
+# 최후의 문법 속성과 img
+- <img>태그는 이미지를 넣을 수있지만 혼자 쓸경우 아무 작동을 하지 않는다.
+- 이때 필요한 문법이 속성이다.
+    - ex) <img src="https://s3-ap-northeast-2.amazonaws.com/opentutorials-user-file/module/3135/7648.png">
+    - src는 source의 줄임말
+
+# 부모 자식과 목록
+- <li> : list를 만들떄 쓰는 태그. 하지만 다른 list가 같이 있을 경우 구분하기 힘들다
+- 다른 list와 구분할수 있도록 경계를 만들어주는 태그와 같이 써야한다
+    - <ul> : unordered lsit 
+    - <ol> : ordered list 
