@@ -101,6 +101,7 @@ promise
         console.log('무조건');
     })
 
+//Promise.resolve는 즉시 resolve하게 하는 프로미스, Promise.reject는 즉시 reject하게 하는 프로미스이다
 const promise1 = Promise.resolve('성공1');
 const promise2 = Promise.resolve('성공2');
 Promise.all([promise1, promise2])
@@ -110,3 +111,4 @@ Promise.all([promise1, promise2])
     .catch((error) => {
         console.error(error);
     })
+

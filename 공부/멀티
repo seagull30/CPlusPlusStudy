@@ -1,33 +1,74 @@
 public class Player
 {
     public int Damage = 10;
-    public int HP { get; private set; } = 100;
+    public int HP
+    {
+        get
+        {
+            return _hp;
+        }
+        private set
+        {
+            // 플레이어의 체력은 UI와 연결되어 있다.
+            _hp = value;
+            HpSlider.value = _hp;
+        }
+    };
+
+    // 플레이어 체력
+    private int _hp = 100;
 
     // 플레이어의 HP를 볼 수 있는 UI
-    public Text HpSlider; 
+    public Slider HpSlider; 
     
     // 플레이어의 애니메이터
-    // TakenDamage 라는 Trigger 타입의 파라미터 있음.
+    // TakenDamage, Attack 라는 Trigger 타입의 파라미터 있음.
     private Animator _animator;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Attack();
+            RequestAttack();
         }
     }
-    
+
+    // 공격을 요청한다.
+    public void RequestAttack()
+    {
+        PhotonView photonView = PhotonView.Get(this);
+        photonView.RPC("playAttackAnim", Rpctarget.All);
+    }
+
+    // 모든 곳에서 애니메이션이 재생되어야 하기 때문에 RPC다.
+    [PunRPC]
+    private void playAttackAnim()
+    {
+        // 여기서는 단순히 애니메이션 재생만 담당하며,
+        // 실제 처리는 애니메이션 이벤트로 처리한다.
+        _animator.SetTrigger("Attack");
+    }
+
+    // 실제 공격부로 애니메이션 이벤트로 등록되어 있다.
     public void Attack()
     {
-        
+        // 충돌한 모든 객체에 대해서 충돌 처리한다.
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 2f);
+        foreach (Collider collider in colliders)
+        {
+            Player enemy = collider.GetComponent<Player>();
+            PhotonView enemyPhotonView = PhotonView.Get(enemy);
+            enemyPhotonView.RPC("TakeDamage", Rpctarget.All, Damage);
+        }
     }
 
+    // 체력은 중요한 데이터로 모든 클라이언트에 반영이 되어야 하므로 RPC다.
+    [PunRPC]
     public void TakeDamage(int damage)
     {
-        
+        HP -= damage;
+        _animator.SetTrigger("TakenDamage");
     }
-
-
-
 }
+
+
